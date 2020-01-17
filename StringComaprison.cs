@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SOMA.Core.Engine.IntentClassifiers
+
+namespace Algo
 {
-    class StringComaprison
+    public class StringSimilarity
     {
         /// <summary>
         /// Compute the distance between two strings.
         /// </summary>
-        public static int LevenshteinDistance(string s, string t)
+        /// <param name="s"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public int LevenshteinDistance(string s, string t)
         {
             int n = s.Length;
             int m = t.Length;
@@ -28,7 +29,7 @@ namespace SOMA.Core.Engine.IntentClassifiers
                 for (int j = 1; j <= m; j++)
                 {
                     int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
-                    
+
                     d[i, j] = Math.Min(
                         Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
                         d[i - 1, j - 1] + cost);
@@ -36,8 +37,14 @@ namespace SOMA.Core.Engine.IntentClassifiers
             }
             return d[n, m];
         }
-
-        public static int GetHammingDistance(string s, string t)
+        /// <summary>
+        /// Matches characters at same indexes.
+        /// It is mainly a distance algorithm so it does not give ‘similarity’.
+        /// </summary>
+        /// <param name="s">string A</param>
+        /// <param name="t">string B</param>
+        /// <returns></returns>
+        public int HammingDistance(string s, string t)
         {
             if (s.Length != t.Length)
                 throw new Exception("Strings must be equal length");
@@ -50,7 +57,7 @@ namespace SOMA.Core.Engine.IntentClassifiers
             return distance;
         }
 
-        public static int GetDamerauLevenshteinDistance(string s, string t)
+        public int DamerauLevenshteinDistance(string s, string t)
         {
             var bounds = new { Height = s.Length + 1, Width = t.Length + 1 };
 
